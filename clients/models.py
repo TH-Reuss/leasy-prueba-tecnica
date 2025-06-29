@@ -8,7 +8,7 @@ class Client(BaseModel):
     dni = models.CharField("DNI", max_length=50, unique=True)
 
     class Meta:
-        verbose_name = "Client"
+        verbose_name = "Cliente"
         verbose_name_plural = "Clients"
 
     def __str__(self):
