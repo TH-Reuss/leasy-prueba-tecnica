@@ -31,12 +31,12 @@ class Contract(BaseModel):
         constraints = [
             models.UniqueConstraint(
                 fields=['client'],
-                condition=Q(is_active=True),
+                condition=Q(is_active=True, deleted_at__isnull=True),
                 name='unique_active_contract_per_client'
             ),
             models.UniqueConstraint(
                 fields=['car'],
-                condition=Q(is_active=True),
+                condition=Q(is_active=True, deleted_at__isnull=True),
                 name='unique_active_contract_per_car'
             ),
         ]
