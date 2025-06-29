@@ -26,8 +26,8 @@ class Contract(BaseModel):
     is_active = models.BooleanField("Activo", default=True)
 
     class Meta:
-        verbose_name = "Contract"
-        verbose_name_plural = "Contracts"
+        verbose_name = "Contrato"
+        verbose_name_plural = "Contratos"
         constraints = [
             models.UniqueConstraint(
                 fields=['client'],
@@ -42,5 +42,4 @@ class Contract(BaseModel):
         ]
 
     def __str__(self):
-        return f"Contract #{self.id} - {self.client.name} / {self.car.plate}"
-```
+        return f"Contrato #{self.id} - {self.client.name} / {self.car.plate}"
