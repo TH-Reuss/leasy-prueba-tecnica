@@ -1,1 +1,10 @@
 /venv/
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+# Ignore Django migration cache files
+*/migrations/__pycache__/
+# Ignore coverage cache
+.coverage
+# Ignore pytest cache
+.pytest_cache/
