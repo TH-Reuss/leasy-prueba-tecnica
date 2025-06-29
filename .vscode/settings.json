@@ -1,7 +1,16 @@
 {
-  // Habilita pylint
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  // Indica explícitamente el .pylintrc que quieres usar
-  "python.linting.pylintArgs": ["--rcfile=${workspaceFolder}/.pylintrc"]
+  // formato al guardar
+  "editor.formatOnSave": true,
+
+  // Prettier como formateador para HTML
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // …y también para CSS
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // ruta a tu config de Prettier
+  "prettier.configPath": ".prettierrc"
 }
