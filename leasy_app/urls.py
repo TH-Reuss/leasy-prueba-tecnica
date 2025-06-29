@@ -18,18 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import RedirectView
+from django.urls import reverse_lazy
 
 urlpatterns = [
+    path('', RedirectView.as_view(url=reverse_lazy('users:login'), permanent=False)),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls', namespace='users')),
-    path('cars/', include('cars.urls', namespace='cars')),
-    path('clients/', include('clients.urls', namespace='clients')),
-    path('contracts/', include('contracts.urls', namespace='contracts')),
-    path('invoices/', include('invoices.urls', namespace='invoices')),
     path('analytics/', include('analytics.urls', namespace='analytics')),
+    
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else settings.STATIC_ROOT)
 
