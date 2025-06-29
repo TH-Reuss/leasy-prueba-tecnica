@@ -23,9 +23,9 @@ class Invoice(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Invoice"
-        verbose_name_plural = "Invoices"
+        verbose_name = "Factura"
+        verbose_name_plural = "Facturas"
         ordering = ['due_date']
 
     def __str__(self):
-        return f"Invoice {self.installment_number} - Contract {self.contract_id}"
+        return f"Factura {self.installment_number} - Contrato {self.contract_id}"
