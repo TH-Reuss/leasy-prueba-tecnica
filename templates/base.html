@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %} 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -10,9 +11,16 @@
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous"
     />
+    <link href="{% static 'theme/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'theme/css/sb-admin-2.min.css' %}" rel="stylesheet">
     {% block extra_head %}{% endblock %}
   </head>
-  <body>
+  <body id="page-top">
     {% block content %}
     {% endblock %}
     <script

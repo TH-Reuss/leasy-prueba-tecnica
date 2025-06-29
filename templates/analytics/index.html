@@ -1,12 +1,13 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}Dashboard{% endblock %}
-
+{% extends "sidebar.html" %}
+{% load static %} 
+{% block title %}
+    Dashboard
+{%endblock %} 
 {% block extra_head %}
 <link href="{% static 'analytics/index.css' %}" rel="stylesheet" />
-{% endblock %}
+{% endblock %} 
 
-{% block content %}
+{% block main_content %}
 <h1>Dashboard</h1>
+<p>Contenido del dashboard aquí...</p>
 {% endblock %}
