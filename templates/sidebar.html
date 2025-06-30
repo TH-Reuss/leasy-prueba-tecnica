@@ -37,6 +37,31 @@
     <!-- Heading -->
     <div class="sidebar-heading">Interface</div>
 
+
+    <li class="nav-item">
+        <a
+          class="nav-link collapsed"
+          href="#"
+          data-toggle="collapse"
+          data-target="#collapseCars"
+          aria-expanded="true"
+          aria-controls="collapseCars"
+        >
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Autos</span>
+        </a>
+        <div
+          id="collapseCars"
+          class="collapse"
+          aria-labelledby="headingCars"
+          data-parent="#accordionSidebar"
+        >
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{% url 'cars:list' %}">Listado de autos</a>
+          </div>
+        </div>
+      </li>
+
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a
