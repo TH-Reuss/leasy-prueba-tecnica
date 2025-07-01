@@ -29,23 +29,25 @@
       </div>
       <div class="modal-body">
         <form
-          
+          action="{% url 'uploads:bulk' %}"
           method="post"
           enctype="multipart/form-data"
         >
           {% csrf_token %}
           <div class="mb-3">
             <label for="file" class="form-label">Archivo</label>
-            <input type="file" class="form-control" id="file" name="file" />
+            <input type="file" class="form-control" id="file" name="file" accept=".xlsx, .csv"/>
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Cerrar
+          </button>
+          <button type="submit" class="btn btn-primary">Cargar</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cerrar
-        </button>
-        <button type="button" class="btn btn-primary">Guardar</button>
-      </div>
+
+        
     </div>
   </div>
 </div>
