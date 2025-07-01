@@ -18,7 +18,7 @@ class Contract(BaseModel):
     )
     weekly_fee = models.DecimalField(
         "Monto semanal",
-        max_digits=3,
+        max_digits=6,
         decimal_places=2
     )
     total_weeks = models.PositiveIntegerField("Cantidad de semanas")
@@ -42,4 +42,4 @@ class Contract(BaseModel):
         ]
 
     def __str__(self):
-        return f"Contrato #{self.id} - {self.client.name} / {self.car.plate}"
+        return f"Contrato #{self.id} - {self.client.first_name} {self.client.last_name} / {self.car.plate}"
