@@ -59,7 +59,16 @@
         // Auto-show all toasts for Django messages
         const toastElList = [].slice.call(document.querySelectorAll('.toast'));
         const toastList = toastElList.map(function(toastEl) {
-          const toast = new bootstrap.Toast(toastEl);
+          // Leer configuraciones desde los atributos data
+          const autohide = toastEl.getAttribute('data-bs-autohide') === 'true';
+          const delay = parseInt(toastEl.getAttribute('data-bs-delay')) || 5000;
+          
+          // Crear toast con opciones específicas
+          const toast = new bootstrap.Toast(toastEl, {
+            autohide: autohide,
+            delay: delay
+          });
+          
           toast.show();
           return toast;
         });
