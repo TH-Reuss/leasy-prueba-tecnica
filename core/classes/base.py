@@ -7,6 +7,9 @@ import datetime
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from django.conf import settings
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 
 EXCEL_SUPPORTED = True
 
@@ -14,6 +17,7 @@ class CustomListView(ListView):
     available_columns = {}  # { 'Label': 'campo' }
     default_columns = []    # ['campo', ...]
     paginate_by = 20
+    create_url = None
 
     def get(self, request, *args, **kwargs):
         if 'export' in request.GET:
@@ -31,8 +35,8 @@ class CustomListView(ListView):
         if search_query:
             filters = Q()
             for attr in selected_attrs:
-                if '__' not in attr:
-                    filters |= Q(**{f"{attr}__icontains": search_query})
+                filters |= Q(**{f"{attr}__icontains": search_query})
+
             queryset = queryset.filter(filters)
 
         return queryset
@@ -63,6 +67,7 @@ class CustomListView(ListView):
             'available_columns': self.available_columns,
             'selected_columns': selected_columns,
             'query_string': urlencode(query_params, doseq=True),
+            'create_url': self.create_url,
         })
         return context
     
@@ -107,3 +112,19 @@ class CustomListView(ListView):
 
         return HttpResponse(status=400)
 
+
+class CustomCreateView(CreateView):
+    template_name = 'core/form.html'
+    title = 'Crear nuevo registro'
+
+    def form_valid(self, form):
+        messages.success(self.request, "Creado correctamente.")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(self.success_url)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
