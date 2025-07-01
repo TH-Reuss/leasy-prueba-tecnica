@@ -12,152 +12,111 @@
     <!-- Sidebar - Brand -->
     <a
       class="sidebar-brand d-flex align-items-center justify-content-center"
-      href="index.html"
+      href="{% url 'analytics:index' %}"
     >
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
-      <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+      <div class="sidebar-brand-text mx-3">Leasy</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0" />
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item {% if request.resolver_match.namespace == 'analytics' %}active{% endif %}">
       <a class="nav-link" href="{% url 'analytics:index' %}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a
-      >
+        <span>Dashboard</span>
+      </a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider" />
 
     <!-- Heading -->
-    <div class="sidebar-heading">Interface</div>
+    <div class="sidebar-heading">Modelos</div>
 
-
-    <li class="nav-item">
-        <a
-          class="nav-link collapsed"
-          href="#"
-          data-toggle="collapse"
-          data-target="#collapseCars"
-          aria-expanded="true"
-          aria-controls="collapseCars"
-        >
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Autos</span>
-        </a>
-        <div
-          id="collapseCars"
-          class="collapse"
-          aria-labelledby="headingCars"
-          data-parent="#accordionSidebar"
-        >
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'cars:list' %}">Listado de autos</a>
-            <a class="collapse-item" href="{% url 'cars:brand-list' %}">Marcas de autos</a>
-            <a class="collapse-item" href="{% url 'cars:model-list' %}">Modelos de autos</a>
-          </div>
-        </div>
-      </li>
-
-    <li class="nav-item">
-
-        <a
-          class="nav-link collapsed"
-          href="#"
-          data-toggle="collapse"
-          data-target="#collapseContracts"
-          aria-expanded="true"
-          aria-controls="collapseContracts"
-        >
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Contratos</span>
-        </a>
-        <div
-          id="collapseContracts"
-          class="collapse"
-          aria-labelledby="headingContracts"
-          data-parent="#accordionSidebar"
-        >
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'contracts:list' %}">Listado de contratos</a>
-            <a class="collapse-item" href="{% url 'contracts:invoice-list' %}">Listado de facturas</a>
-          </div>
-        </div>
-      </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClients" aria-expanded="true" aria-controls="collapseClients">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Clientes</span>
-        </a>
-        <div id="collapseClients" class="collapse" aria-labelledby="headingClients" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'clients:list' %}">Listado de clientes</a>
-          </div>
-        </div>
-      </li>
-
-
-
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Autos -->
     <li class="nav-item">
       <a
-        class="nav-link collapsed"
+        class="nav-link {% if request.resolver_match.namespace != 'cars' %}collapsed{% endif %}"
         href="#"
         data-toggle="collapse"
-        data-target="#collapseTwo"
-        aria-expanded="true"
-        aria-controls="collapseTwo"
+        data-target="#collapseCars"
+        aria-expanded="{% if request.resolver_match.namespace == 'cars' %}true{% else %}false{% endif %}"
+        aria-controls="collapseCars"
       >
-        <i class="fas fa-fw fa-cog"></i>
-        <span>Components</span>
+        <i class="fas fa-fw fa-car"></i>
+        <span>Autos</span>
       </a>
       <div
-        id="collapseTwo"
-        class="collapse"
-        aria-labelledby="headingTwo"
+        id="collapseCars"
+        class="collapse {% if request.resolver_match.namespace == 'cars' %}show{% endif %}"
+        aria-labelledby="headingCars"
         data-parent="#accordionSidebar"
       >
         <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Custom Components:</h6>
-          <a class="collapse-item" href="buttons.html">Buttons</a>
-          <a class="collapse-item" href="cards.html">Cards</a>
+          <a class="collapse-item {% if request.resolver_match.url_name == 'list' and request.resolver_match.namespace == 'cars' %}active{% endif %}" 
+             href="{% url 'cars:list' %}">Listado de autos</a>
+          <a class="collapse-item {% if request.resolver_match.url_name == 'brand-list' %}active{% endif %}" 
+             href="{% url 'cars:brand-list' %}">Marcas de autos</a>
+          <a class="collapse-item {% if request.resolver_match.url_name == 'model-list' %}active{% endif %}" 
+             href="{% url 'cars:model-list' %}">Modelos de autos</a>
         </div>
       </div>
     </li>
 
-    <!-- Nav Item - Utilities Collapse Menu -->
+    <!-- Nav Item - Contratos -->
     <li class="nav-item">
       <a
-        class="nav-link collapsed"
+        class="nav-link {% if request.resolver_match.namespace != 'contracts' %}collapsed{% endif %}"
         href="#"
         data-toggle="collapse"
-        data-target="#collapseUtilities"
-        aria-expanded="true"
-        aria-controls="collapseUtilities"
+        data-target="#collapseContracts"
+        aria-expanded="{% if request.resolver_match.namespace == 'contracts' %}true{% else %}false{% endif %}"
+        aria-controls="collapseContracts"
       >
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Utilities</span>
+        <i class="fas fa-fw fa-file-contract"></i>
+        <span>Contratos</span>
       </a>
       <div
-        id="collapseUtilities"
-        class="collapse"
-        aria-labelledby="headingUtilities"
+        id="collapseContracts"
+        class="collapse {% if request.resolver_match.namespace == 'contracts' %}show{% endif %}"
+        aria-labelledby="headingContracts"
         data-parent="#accordionSidebar"
       >
         <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Custom Utilities:</h6>
-          <a class="collapse-item" href="utilities-color.html">Colors</a>
-          <a class="collapse-item" href="utilities-border.html">Borders</a>
-          <a class="collapse-item" href="utilities-animation.html"
-            >Animations</a
-          >
-          <a class="collapse-item" href="utilities-other.html">Other</a>
+          <a class="collapse-item {% if request.resolver_match.url_name == 'list' and request.resolver_match.namespace == 'contracts' %}active{% endif %}" 
+             href="{% url 'contracts:list' %}">Listado de contratos</a>
+          <a class="collapse-item {% if request.resolver_match.url_name == 'invoice-list' %}active{% endif %}" 
+             href="{% url 'contracts:invoice-list' %}">Listado de facturas</a>
+        </div>
+      </div>
+    </li>
+
+    <!-- Nav Item - Clientes -->
+    <li class="nav-item">
+      <a 
+        class="nav-link {% if request.resolver_match.namespace != 'clients' %}collapsed{% endif %}" 
+        href="#" 
+        data-toggle="collapse" 
+        data-target="#collapseClients" 
+        aria-expanded="{% if request.resolver_match.namespace == 'clients' %}true{% else %}false{% endif %}" 
+        aria-controls="collapseClients"
+      >
+        <i class="fas fa-fw fa-users"></i>
+        <span>Clientes</span>
+      </a>
+      <div 
+        id="collapseClients" 
+        class="collapse {% if request.resolver_match.namespace == 'clients' %}show{% endif %}" 
+        aria-labelledby="headingClients" 
+        data-parent="#accordionSidebar"
+      >
+        <div class="bg-white py-2 collapse-inner rounded">
+          <a class="collapse-item {% if request.resolver_match.url_name == 'list' and request.resolver_match.namespace == 'clients' %}active{% endif %}" 
+             href="{% url 'clients:list' %}">Listado de clientes</a>
         </div>
       </div>
     </li>
@@ -191,9 +150,7 @@
           <h6 class="collapse-header">Login Screens:</h6>
           <a class="collapse-item" href="login.html">Login</a>
           <a class="collapse-item" href="register.html">Register</a>
-          <a class="collapse-item" href="forgot-password.html"
-            >Forgot Password</a
-          >
+          <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
           <div class="collapse-divider"></div>
           <h6 class="collapse-header">Other Pages:</h6>
           <a class="collapse-item" href="404.html">404 Page</a>
@@ -206,16 +163,16 @@
     <li class="nav-item">
       <a class="nav-link" href="charts.html">
         <i class="fas fa-fw fa-chart-area"></i>
-        <span>Charts</span></a
-      >
+        <span>Charts</span>
+      </a>
     </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
       <a class="nav-link" href="tables.html">
         <i class="fas fa-fw fa-table"></i>
-        <span>Tables</span></a
-      >
+        <span>Tables</span>
+      </a>
     </li>
 
     <!-- Divider -->
@@ -230,18 +187,17 @@
     <div class="sidebar-card d-none d-lg-flex">
       <img
         class="sidebar-card-illustration mb-2"
-        src="img/undraw_rocket.svg"
+        src="{% static 'theme/img/undraw_rocket.svg' %}"
         alt="..."
       />
       <p class="text-center mb-2">
-        <strong>SB Admin Pro</strong> is packed with premium features,
+        <strong>Leasy Pro</strong> is packed with premium features,
         components, and more!
       </p>
       <a
         class="btn btn-success btn-sm"
-        href="https://startbootstrap.com/theme/sb-admin-pro"
-        >Upgrade to Pro!</a
-      >
+        href="#"
+      >Upgrade to Pro!</a>
     </div>
   </ul>
   <!-- End of Sidebar -->
@@ -350,9 +306,7 @@
                 </div>
                 <div>
                   <div class="small text-gray-500">December 12, 2019</div>
-                  <span class="font-weight-bold"
-                    >A new monthly report is ready to download!</span
-                  >
+                  <span class="font-weight-bold">A new monthly report is ready to download!</span>
                 </div>
               </a>
               <a class="dropdown-item d-flex align-items-center" href="#">
@@ -374,13 +328,10 @@
                 </div>
                 <div>
                   <div class="small text-gray-500">December 2, 2019</div>
-                  Spending Alert: We've noticed unusually high spending for your
-                  account.
+                  Spending Alert: We've noticed unusually high spending for your account.
                 </div>
               </a>
-              <a class="dropdown-item text-center small text-gray-500" href="#"
-                >Show All Alerts</a
-              >
+              <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
             </div>
           </li>
 
@@ -409,15 +360,14 @@
                 <div class="dropdown-list-image mr-3">
                   <img
                     class="rounded-circle"
-                    src="img/undraw_profile_1.svg"
+                    src="{% static 'theme/img/undraw_profile_1.svg' %}"
                     alt="..."
                   />
                   <div class="status-indicator bg-success"></div>
                 </div>
                 <div class="font-weight-bold">
                   <div class="text-truncate">
-                    Hi there! I am wondering if you can help me with a problem
-                    I've been having.
+                    Hi there! I am wondering if you can help me with a problem I've been having.
                   </div>
                   <div class="small text-gray-500">Emily Fowler · 58m</div>
                 </div>
@@ -426,15 +376,14 @@
                 <div class="dropdown-list-image mr-3">
                   <img
                     class="rounded-circle"
-                    src="img/undraw_profile_2.svg"
+                    src="{% static 'theme/img/undraw_profile_2.svg' %}"
                     alt="..."
                   />
                   <div class="status-indicator"></div>
                 </div>
                 <div>
                   <div class="text-truncate">
-                    I have the photos that you ordered last month, how would you
-                    like them sent to you?
+                    I have the photos that you ordered last month, how would you like them sent to you?
                   </div>
                   <div class="small text-gray-500">Jae Chun · 1d</div>
                 </div>
@@ -443,15 +392,14 @@
                 <div class="dropdown-list-image mr-3">
                   <img
                     class="rounded-circle"
-                    src="img/undraw_profile_3.svg"
+                    src="{% static 'theme/img/undraw_profile_3.svg' %}"
                     alt="..."
                   />
                   <div class="status-indicator bg-warning"></div>
                 </div>
                 <div>
                   <div class="text-truncate">
-                    Last month's report looks great, I am very happy with the
-                    progress so far, keep up the good work!
+                    Last month's report looks great, I am very happy with the progress so far, keep up the good work!
                   </div>
                   <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                 </div>
@@ -467,16 +415,12 @@
                 </div>
                 <div>
                   <div class="text-truncate">
-                    Am I a good boy? The reason I ask is because someone told me
-                    that people say this to all dogs, even if they aren't
-                    good...
+                    Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...
                   </div>
                   <div class="small text-gray-500">Chicken the Dog · 2w</div>
                 </div>
               </a>
-              <a class="dropdown-item text-center small text-gray-500" href="#"
-                >Read More Messages</a
-              >
+              <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
             </div>
           </li>
 
@@ -493,9 +437,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                >{{ user.email }}</span
-              >
+              <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.email }}</span>
               <img
                 class="img-profile rounded-circle"
                 src="{% static 'theme/img/undraw_profile.svg' %}"
@@ -525,9 +467,7 @@
                 data-toggle="modal"
                 data-target="#logoutModal"
               >
-                <i
-                  class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
-                ></i>
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Cerrar sesión
               </a>
             </div>
@@ -540,7 +480,7 @@
       <div class="container-fluid">
         {% block main_content %}
         {% endblock %}
-        </div>
+      </div>
       <!-- /.container-fluid -->
     </div>
     <!-- End of Main Content -->
@@ -549,7 +489,7 @@
     <footer class="sticky-footer bg-white">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
-          <span>Copyright &copy; Your Website 2021</span>
+          <span>Copyright &copy; Leasy 2025</span>
         </div>
       </div>
     </footer>
@@ -596,7 +536,7 @@
         <form method="post" action="{% url 'users:logout' %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">Cerrar sesión</button>
-          </form>
+        </form>
       </div>
     </div>
   </div>
