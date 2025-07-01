@@ -2,8 +2,10 @@ asgiref==3.8.1
 astroid==3.3.10
 dill==0.4.0
 Django==5.2.3
+et_xmlfile==2.0.0
 isort==6.0.1
 mccabe==0.7.0
+openpyxl==3.1.5
 platformdirs==4.3.8
 psycopg2-binary==2.9.10
 pylint==3.3.7

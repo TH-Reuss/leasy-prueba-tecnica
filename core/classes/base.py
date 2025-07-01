@@ -1,11 +1,26 @@
 from django.views.generic import ListView
 from django.utils.http import urlencode
 from django.db.models import Q
+from django.http import HttpResponse
+import csv
+import datetime
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+from django.conf import settings
+
+EXCEL_SUPPORTED = True
 
 class CustomListView(ListView):
     available_columns = {}  # { 'Label': 'campo' }
     default_columns = []    # ['campo', ...]
     paginate_by = 20
+
+    def get(self, request, *args, **kwargs):
+        if 'export' in request.GET:
+            self.object_list = self.get_queryset()
+            export_type = request.GET.get('export', 'csv')
+            return self.export_data(export_type)
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         columns_param = self.request.GET.get('columns')
@@ -50,3 +65,45 @@ class CustomListView(ListView):
             'query_string': urlencode(query_params, doseq=True),
         })
         return context
+    
+    def export_data(self, export_type='csv'):
+        queryset = self.get_queryset()
+        context = self.get_context_data()
+        selected_columns = context['selected_columns']  # dict: label → attr
+
+        headers = list(selected_columns.keys())
+        fields = list(selected_columns.values())
+
+        if export_type == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            filename = f"{self.model.__name__.lower()}s_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.csv"
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+            writer = csv.writer(response)
+            writer.writerow(headers)
+            for row in queryset:
+                writer.writerow([row.get(field, '') for field in fields])
+            return response
+
+        elif export_type == 'xlsx' and EXCEL_SUPPORTED:
+            from openpyxl import Workbook
+
+            wb = Workbook()
+            ws = wb.active
+            ws.append(headers)
+
+            for row in queryset:
+                ws.append([row.get(field, '') for field in fields])
+
+            for col_num, _ in enumerate(headers, 1):
+                ws.column_dimensions[get_column_letter(col_num)].auto_size = True
+
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            filename = f"{self.model.__name__.lower()}s_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+            wb.save(response)
+            return response
+
+        return HttpResponse(status=400)
+
