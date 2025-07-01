@@ -11,8 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.dateparse import parse_date
 from clients.models import Client
 from cars.models import Car, CarBrand, CarModel
-from contracts.models import Contract
-from invoices.models import Invoice
+from contracts.models import Contract, Invoice
 
 
 class BulkUploadView(LoginRequiredMixin, View):
