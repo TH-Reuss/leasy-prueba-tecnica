@@ -32,7 +32,6 @@ class CarCreateView(LoginRequiredMixin, CustomCreateView):
     success_url = 'cars:list'
     title = 'Crear nuevo auto'
 
-
 class CarBrandListView(LoginRequiredMixin, CustomListView):
     model = CarBrand
     template_name = 'core/list.html'
@@ -41,6 +40,13 @@ class CarBrandListView(LoginRequiredMixin, CustomListView):
         'Nombre': 'name',
     }
     default_columns = ['name']
+    create_url = 'cars:brand-create'
+
+class CarBrandCreateView(LoginRequiredMixin, CustomCreateView):
+    model = CarBrand
+    fields = ['name']
+    success_url = 'cars:brand-list'
+    title = 'Crear nueva marca'
     
 class CarModelListView(LoginRequiredMixin, CustomListView):
     model = CarModel
@@ -51,3 +57,10 @@ class CarModelListView(LoginRequiredMixin, CustomListView):
         'Marca': 'brand__name',
     }
     default_columns = ['name', 'brand__name']
+    create_url = 'cars:model-create'
+
+class CarModelCreateView(LoginRequiredMixin, CustomCreateView):
+    model = CarModel
+    fields = ['name', 'brand']
+    success_url = 'cars:model-list'
+    title = 'Crear nuevo modelo'

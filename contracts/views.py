@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from core.classes.base import CustomListView
+from core.classes.base import CustomListView, CustomCreateView
 from .models import Contract, Invoice
 
 class ContractListView(LoginRequiredMixin, CustomListView):
@@ -8,7 +8,6 @@ class ContractListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
-        
         'Nombre cliente': 'client__first_name',
         'Apellido cliente': 'client__last_name',
         'Auto': 'car__plate',
@@ -18,6 +17,13 @@ class ContractListView(LoginRequiredMixin, CustomListView):
         'Estado': 'is_active',
     }
     default_columns = ['client__first_name', 'client__last_name', 'car__plate', 'weekly_fee', 'total_weeks', 'start_date']
+    create_url = 'contracts:create'
+
+class ContractCreateView(LoginRequiredMixin, CustomCreateView):
+    model = Contract
+    fields = ['client', 'car', 'weekly_fee', 'total_weeks', 'start_date', 'is_active']
+    success_url = 'contracts:list'
+    title = 'Crear nuevo contrato'
 
 class InvoiceListView(LoginRequiredMixin, CustomListView):
     model = Invoice
@@ -30,3 +36,11 @@ class InvoiceListView(LoginRequiredMixin, CustomListView):
         'Fecha de vencimiento': 'due_date',
         'Fecha de pago': 'payment_date',
     }
+    default_columns = ['contract__id', 'amount', 'installment_number', 'due_date', 'payment_date']
+    create_url = 'contracts:invoice-create'
+
+class InvoiceCreateView(LoginRequiredMixin, CustomCreateView):
+    model = Invoice
+    fields = ['contract', 'amount', 'installment_number', 'due_date', 'payment_date']
+    success_url = 'contracts:invoice-list'
+    title = 'Crear nueva factura'
