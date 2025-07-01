@@ -9,7 +9,8 @@ class ContractListView(LoginRequiredMixin, CustomListView):
     ordering = ['-created_at']
     available_columns = {
         'ID': 'id',
-        'Cliente': 'client__first_name',
+        'Nombre del cliente': 'client__first_name',
+        'Apellido del cliente': 'client__last_name',
         'Auto': 'car__plate',
         'Monto semanal': 'weekly_fee',
         'Cantidad de semanas': 'total_weeks',

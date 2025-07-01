@@ -1,3 +1,16 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from core.classes.base import CustomListView
+from .models import Client
 
-# Create your views here.
+class ClientListView(LoginRequiredMixin, CustomListView):
+    model = Client
+    template_name = 'core/list.html'
+    ordering = ['-created_at']
+    available_columns = {
+        'DNI': 'dni',   
+        'Nombre': 'first_name',
+        'Apellido': 'last_name',
+    }
+    default_columns = ['dni', 'first_name', 'last_name']
+

@@ -29,7 +29,7 @@ urlpatterns = [
     path('uploads/', include('uploads.urls', namespace='uploads')),
     path('cars/', include('cars.urls', namespace='cars')),
     path('contracts/', include('contracts.urls', namespace='contracts')),
-    
+    path('clients/', include('clients.urls', namespace='clients')),
 ]
 
 if settings.DEBUG:
