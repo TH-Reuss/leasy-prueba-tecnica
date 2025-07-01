@@ -29,7 +29,8 @@
       {% for obj in page_obj %}
         <tr>
           {% for label, attr in selected_columns.items %}
-            <td>{{ obj|get_attr:attr }}</td>
+          <td>{{ obj|get_item:attr }}</td>
+
           {% endfor %}
         </tr>
       {% empty %}
@@ -65,17 +66,29 @@
     </ul>
   </nav>
 
-  <!-- JavaScript para actualizar columnas -->
-  <script>
-    document.querySelectorAll('#columnForm input[type=checkbox]').forEach(cb => {
-      cb.addEventListener('change', () => {
-        const selected = Array.from(document.querySelectorAll('#columnForm input:checked'))
-                              .map(cb => cb.value);
-        const params = new URLSearchParams(window.location.search);
+<script>
+  $(function () {
+    $('#columnForm input[type=checkbox]').on('change', function () {
+      const selected = $('#columnForm input:checked')
+        .map(function () { return $(this).val(); })
+        .get();
+
+      const params = new URLSearchParams(window.location.search);
+
+      if (selected.length > 0) {
         params.set('columns', selected.join(','));
-        params.delete('page');  // resetear página al cambiar columnas
-        window.location.search = params.toString();
-      });
+      } else {
+        params.delete('columns');
+      }
+
+      params.delete('page');  // Resetear paginación
+
+      // Redirigir
+      window.location.search = params.toString();
     });
-  </script>
+  });
+</script>
+
+  
+  
 {% endblock %}
