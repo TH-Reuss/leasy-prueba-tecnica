@@ -1,5 +1,6 @@
 from django.views.generic import ListView
 from django.utils.http import urlencode
+from django.db.models import Q
 
 class CustomListView(ListView):
     available_columns = {}  # { 'Label': 'campo' }
@@ -9,7 +10,18 @@ class CustomListView(ListView):
     def get_queryset(self):
         columns_param = self.request.GET.get('columns')
         selected_attrs = columns_param.split(',') if columns_param else self.default_columns
-        return self.model.objects.values(*selected_attrs)
+        queryset = self.model.objects.values(*selected_attrs)
+
+        search_query = self.request.GET.get('search')
+        if search_query:
+            filters = Q()
+            for attr in selected_attrs:
+                if '__' not in attr:
+                    filters |= Q(**{f"{attr}__icontains": search_query})
+            queryset = queryset.filter(filters)
+
+        return queryset
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
