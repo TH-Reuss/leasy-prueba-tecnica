@@ -8,6 +8,7 @@ class ClientListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
+        'ID': 'id',
         'DNI': 'dni',   
         'Nombre': 'first_name',
         'Apellido': 'last_name',
