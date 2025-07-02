@@ -8,6 +8,7 @@ class ContractListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
+        'ID': 'id',
         'Nombre cliente': 'client__first_name',
         'Apellido cliente': 'client__last_name',
         'Auto': 'car__plate',
@@ -30,6 +31,7 @@ class InvoiceListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
+        'ID': 'id',
         'Contrato': 'contract__id',
         'Monto': 'amount',
         'Número de cuota': 'installment_number',

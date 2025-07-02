@@ -45,6 +45,7 @@ class CarBrandListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
+        'ID': 'id',
         'Nombre': 'name',
     }
     default_columns = ['name']
@@ -61,6 +62,7 @@ class CarModelListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
+        'ID': 'id',
         'Nombre': 'name',
         'Marca': 'brand__name',
     }
