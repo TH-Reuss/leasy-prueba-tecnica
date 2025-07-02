@@ -153,12 +153,12 @@ class CustomUpdateView(UpdateView):
     
 
 class CustomDeleteView(DeleteView):
-    template_name = None
+    http_method_names = ['post']
     success_url = None
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         messages.success(self.request, "Eliminado correctamente.")
-        return super().delete(request, *args, **kwargs)
+        return self.delete(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy(self.success_url)

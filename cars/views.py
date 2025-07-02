@@ -55,13 +55,25 @@ class CarBrandListView(LoginRequiredMixin, CustomListView):
     }
     default_columns = ['name']
     create_url = 'cars:brand-create'
+    update_url = 'cars:brand-update'
 
 class CarBrandCreateView(LoginRequiredMixin, CustomCreateView):
     model = CarBrand
     fields = ['name']
     success_url = 'cars:brand-list'
     title = 'Crear nueva marca'
-    
+
+class CarBrandUpdateView(LoginRequiredMixin, CustomUpdateView):
+    model = CarBrand
+    fields = ['name']
+    success_url = 'cars:brand-list'
+    title = 'Editar marca'
+    delete_url = 'cars:brand-delete'
+
+class CarBrandDeleteView(LoginRequiredMixin, CustomDeleteView):
+    model = CarBrand
+    success_url = 'cars:brand-list'
+
 class CarModelListView(LoginRequiredMixin, CustomListView):
     model = CarModel
     template_name = 'core/list.html'
@@ -73,9 +85,21 @@ class CarModelListView(LoginRequiredMixin, CustomListView):
     }
     default_columns = ['name', 'brand__name']
     create_url = 'cars:model-create'
+    update_url = 'cars:model-update'
 
 class CarModelCreateView(LoginRequiredMixin, CustomCreateView):
     model = CarModel
     fields = ['name', 'brand']
     success_url = 'cars:model-list'
     title = 'Crear nuevo modelo'
+
+class CarModelUpdateView(LoginRequiredMixin, CustomUpdateView):
+    model = CarModel
+    fields = ['name', 'brand']
+    success_url = 'cars:model-list'
+    title = 'Editar modelo'
+    delete_url = 'cars:model-delete'
+
+class CarModelDeleteView(LoginRequiredMixin, CustomDeleteView):
+    model = CarModel
+    success_url = 'cars:model-list'

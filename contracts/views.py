@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from core.classes.base import CustomListView, CustomCreateView
+from core.classes.base import CustomListView, CustomCreateView, CustomUpdateView, CustomDeleteView
 from .models import Contract, Invoice
 
 class ContractListView(LoginRequiredMixin, CustomListView):
@@ -19,12 +19,26 @@ class ContractListView(LoginRequiredMixin, CustomListView):
     }
     default_columns = ['client__first_name', 'client__last_name', 'car__plate', 'weekly_fee', 'total_weeks', 'start_date']
     create_url = 'contracts:create'
+    update_url = 'contracts:update'
 
 class ContractCreateView(LoginRequiredMixin, CustomCreateView):
     model = Contract
     fields = ['client', 'car', 'weekly_fee', 'total_weeks', 'start_date', 'is_active']
     success_url = 'contracts:list'
     title = 'Crear nuevo contrato'
+
+class ContractUpdateView(LoginRequiredMixin, CustomUpdateView):
+    model = Contract
+    fields = ['client', 'car', 'weekly_fee', 'total_weeks', 'start_date', 'is_active']
+    success_url = 'contracts:list'
+    title = 'Editar contrato'
+    delete_url = 'contracts:delete'
+
+class ContractDeleteView(LoginRequiredMixin, CustomDeleteView):
+    model = Contract
+    success_url = 'contracts:list'
+    title = 'Eliminar contrato'
+    delete_url = 'contracts:delete'
 
 class InvoiceListView(LoginRequiredMixin, CustomListView):
     model = Invoice
