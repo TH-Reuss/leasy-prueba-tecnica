@@ -1,5 +1,5 @@
 from django import template
-from django.forms import DateField, DateInput, Select
+from django.forms import DateField, DateInput, Select, CheckboxInput
 
 register = template.Library()
     
@@ -17,10 +17,14 @@ def add_class(field, css_class=None):
     Also handles rendering of DateField as <input type="date">.
     """
     widget = field.field.widget
+    attrs = {}
     
-    # Determine base class
+    # Determine base class and add attributes
     if isinstance(widget, Select):
         base_class = 'form-select'
+    elif isinstance(widget, CheckboxInput):
+        base_class = 'form-check-input'
+        attrs['role'] = 'switch'  # <-- Añadimos el rol para el switch
     else:
         base_class = 'form-control form-control-user'
         
@@ -29,11 +33,10 @@ def add_class(field, css_class=None):
     else:
         final_class = base_class
         
-    attrs = {'class': final_class}
+    attrs['class'] = final_class
 
     if isinstance(field.field, DateField):
         date_widget = DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         return field.as_widget(widget=date_widget, attrs=attrs)
         
     return field.as_widget(attrs=attrs)
-
