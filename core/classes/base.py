@@ -9,7 +9,7 @@ from openpyxl.utils import get_column_letter
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 EXCEL_SUPPORTED = True
 
@@ -136,6 +136,7 @@ class CustomCreateView(CreateView):
 class CustomUpdateView(UpdateView):
     template_name = 'core/form.html'
     title = 'Editar registro'
+    delete_url = None
 
     def form_valid(self, form):
         messages.success(self.request, "Actualizado correctamente.")
@@ -147,4 +148,17 @@ class CustomUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
+        context['delete_url'] = self.delete_url
         return context
+    
+
+class CustomDeleteView(DeleteView):
+    template_name = None
+    success_url = None
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Eliminado correctamente.")
+        return super().delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse_lazy(self.success_url)

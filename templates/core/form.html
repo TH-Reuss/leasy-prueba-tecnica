@@ -27,6 +27,12 @@
 
               <button type="submit" class="btn btn-primary btn-user btn-block">Guardar</button>
               <a href="{% url view.success_url %}" class="btn btn-secondary btn-user btn-block">Cancelar</a>
+              {% if delete_url and view.object.pk %}
+                <button type="button" class="btn btn-outline-danger btn-user btn-block" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                  Eliminar
+                </button>
+              {% endif %}
+
             </form>
 
             <hr>
@@ -39,4 +45,28 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Modal de confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="confirmDeleteLabel">¿Eliminar este registro?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        Esta acción no se puede deshacer. ¿Estás seguro que deseas eliminar este registro?
+      </div>
+      <div class="modal-footer">
+        <form method="post" action="{% url delete_url pk=view.object.pk %}">
+          {% csrf_token %}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

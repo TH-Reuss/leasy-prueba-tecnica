@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import Car, CarBrand, CarModel
 from django.contrib.auth.mixins import LoginRequiredMixin
-from core.classes.base import CustomListView, CustomCreateView, CustomUpdateView
+from core.classes.base import CustomDeleteView, CustomListView, CustomCreateView, CustomUpdateView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
@@ -39,6 +39,11 @@ class CarUpdateView(LoginRequiredMixin, CustomUpdateView):
     fields = ['plate', 'brand', 'model', 'manufacture_date']
     success_url = 'cars:list'
     title = 'Editar auto'
+    delete_url = 'cars:delete'
+
+class CarDeleteView(LoginRequiredMixin, CustomDeleteView):
+    model = Car
+    success_url = 'cars:list'
 
 class CarBrandListView(LoginRequiredMixin, CustomListView):
     model = CarBrand
