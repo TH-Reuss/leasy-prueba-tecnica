@@ -39,4 +39,3 @@ class InvoiceListView(LoginRequiredMixin, CustomListView):
         'Fecha de pago': 'payment_date',
     }
     default_columns = ['contract__id', 'amount', 'installment_number', 'due_date', 'payment_date']
-    create_url = 'contracts:invoice-create'
