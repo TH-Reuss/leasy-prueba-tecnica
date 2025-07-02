@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import Car, CarBrand, CarModel
 from django.contrib.auth.mixins import LoginRequiredMixin
-from core.classes.base import CustomListView, CustomCreateView
+from core.classes.base import CustomListView, CustomCreateView, CustomUpdateView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
@@ -18,6 +18,7 @@ class CarListView(LoginRequiredMixin, CustomListView):
     template_name = 'core/list.html'
     ordering = ['-created_at']
     available_columns = {
+        'ID': 'id',
         'Placa': 'plate',
         'Marca': 'brand__name',
         'Modelo': 'model__name',
@@ -25,12 +26,19 @@ class CarListView(LoginRequiredMixin, CustomListView):
     }
     default_columns = ['plate', 'brand__name', 'model__name', 'manufacture_date']
     create_url = 'cars:create'
+    update_url = 'cars:update'
 
 class CarCreateView(LoginRequiredMixin, CustomCreateView):
     model = Car
     fields = ['plate', 'brand', 'model', 'manufacture_date']
     success_url = 'cars:list'
     title = 'Crear nuevo auto'
+
+class CarUpdateView(LoginRequiredMixin, CustomUpdateView):
+    model = Car
+    fields = ['plate', 'brand', 'model', 'manufacture_date']
+    success_url = 'cars:list'
+    title = 'Editar auto'
 
 class CarBrandListView(LoginRequiredMixin, CustomListView):
     model = CarBrand

@@ -9,7 +9,7 @@ from openpyxl.utils import get_column_letter
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 EXCEL_SUPPORTED = True
 
@@ -18,6 +18,7 @@ class CustomListView(ListView):
     default_columns = []    # ['campo', ...]
     paginate_by = 20
     create_url = None
+    update_url = None
 
     def get(self, request, *args, **kwargs):
         if 'export' in request.GET:
@@ -29,6 +30,7 @@ class CustomListView(ListView):
     def get_queryset(self):
         columns_param = self.request.GET.get('columns')
         selected_attrs = columns_param.split(',') if columns_param else self.default_columns
+        selected_attrs = selected_attrs if 'id' in selected_attrs else ['id'] + selected_attrs
         queryset = self.model.objects.values(*selected_attrs)
 
         search_query = self.request.GET.get('search')
@@ -68,6 +70,7 @@ class CustomListView(ListView):
             'selected_columns': selected_columns,
             'query_string': urlencode(query_params, doseq=True),
             'create_url': self.create_url,
+            'update_url': self.update_url
         })
         return context
     
@@ -121,6 +124,23 @@ class CustomCreateView(CreateView):
         messages.success(self.request, "Creado correctamente.")
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy(self.success_url)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+
+class CustomUpdateView(UpdateView):
+    template_name = 'core/form.html'
+    title = 'Editar registro'
+
+    def form_valid(self, form):
+        messages.success(self.request, "Actualizado correctamente.")
+        return super().form_valid(form)
+    
     def get_success_url(self):
         return reverse_lazy(self.success_url)
     
