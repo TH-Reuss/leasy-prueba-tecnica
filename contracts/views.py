@@ -40,9 +40,3 @@ class InvoiceListView(LoginRequiredMixin, CustomListView):
     }
     default_columns = ['contract__id', 'amount', 'installment_number', 'due_date', 'payment_date']
     create_url = 'contracts:invoice-create'
-
-class InvoiceCreateView(LoginRequiredMixin, CustomCreateView):
-    model = Invoice
-    fields = ['contract', 'amount', 'installment_number', 'due_date', 'payment_date']
-    success_url = 'contracts:invoice-list'
-    title = 'Crear nueva factura'
