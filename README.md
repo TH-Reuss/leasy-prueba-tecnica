@@ -204,7 +204,13 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 ```
 
-### **6. Crear Superusuario**
+### \*\*3 Levantar Contenedor
+
+```bash
+docker compose -f docker-compose-dev.yml up
+```
+
+### **4 Crear Superusuario**
 
 Necesitas conectarte al contenedor para crear un superusuario con el siguiente comando
 
