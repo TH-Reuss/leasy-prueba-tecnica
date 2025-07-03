@@ -1,0 +1,52 @@
+{% load custom_tags %}
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Últimos Contratos</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Auto</th>
+            <th>Monto Semanal</th>
+            <th>Fecha Inicio</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for contract in recent_contracts %}
+            <tr>
+              <td>{{ contract.client.first_name }} {{ contract.client.last_name }}</td>
+              <td>{{ contract.car.plate }} ({{ contract.car.model.brand.name }} {{ contract.car.model.name }})</td>
+              <td>${{ contract.weekly_fee }}</td>
+              <td>{{ contract.start_date }}</td>
+              <td>
+                {% if contract.is_active %}
+                  <span>Activo</span>
+                {% else %}
+                  <span >Inactivo</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{% url 'contracts:update' pk=contract.id %}" class="btn btn-primary btn-sm">
+                  <i class="fas fa-edit"></i>
+                </a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="text-center">No hay contratos disponibles</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center">
+      <a href="{% url 'contracts:list' %}" class="btn btn-primary">Ver Todos los Contratos</a>
+    </div>
+  </div>
+</div>

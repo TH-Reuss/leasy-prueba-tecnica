@@ -1,3 +1,5 @@
+from django.forms import ValidationError
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.utils.http import urlencode
 from django.db.models import Q
@@ -101,7 +103,7 @@ class CustomListView(ListView):
             ws.append(headers)
 
             for row in queryset:
-                ws.append([row.get(field, '') for field in fields])
+                ws.append([str(row.get(field, '')) if row.get(field, '') is not None else '' for field in fields])
 
             for col_num, _ in enumerate(headers, 1):
                 ws.column_dimensions[get_column_letter(col_num)].auto_size = True
@@ -121,8 +123,10 @@ class CustomCreateView(CreateView):
     title = 'Crear nuevo registro'
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         messages.success(self.request, "Creado correctamente.")
-        return super().form_valid(form)
+        return response
+
 
     def get_success_url(self):
         return reverse_lazy(self.success_url)
@@ -139,8 +143,9 @@ class CustomUpdateView(UpdateView):
     delete_url = None
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         messages.success(self.request, "Actualizado correctamente.")
-        return super().form_valid(form)
+        return response
     
     def get_success_url(self):
         return reverse_lazy(self.success_url)
@@ -157,8 +162,15 @@ class CustomDeleteView(DeleteView):
     success_url = None
 
     def post(self, request, *args, **kwargs):
-        messages.success(self.request, "Eliminado correctamente.")
-        return self.delete(request, *args, **kwargs)
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            messages.success(request, "Eliminado correctamente.")
+        except ValidationError as e:
+            messages.error(request, str(e))
+        except Exception as e:
+            messages.error(request, "Error inesperado al intentar eliminar.")
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse_lazy(self.success_url)

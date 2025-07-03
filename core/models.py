@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.forms import ValidationError
 from django.utils import timezone
 
 class SoftDeleteQuerySet(models.QuerySet):
@@ -35,11 +36,29 @@ class BaseModel(models.Model):
     objects      = SoftDeleteManager()
     all_objects  = AllObjectsManager()
 
+    protected_relations = []
+    cascade_delete_relations = []
+
     class Meta:
         abstract = True
 
-    def delete(self, using=None, keep_parents=False):
-        type(self).objects.filter(pk=self.pk).delete()
+    def delete(self, *args, **kwargs):
+        # 1. Protección: ¿tiene relaciones que impiden eliminar?
+        for rel in self.protected_relations:
+            related_qs = getattr(self, rel).all()
+            if related_qs.exists():
+                raise ValidationError(f"No se puede eliminar porque tiene {rel} asociados.")
+
+        # 2. Eliminación en cascada (soft delete en objetos relacionados)
+        for rel in self.cascade_delete_relations:
+            related_qs = getattr(self, rel).all()
+            for obj in related_qs:
+                obj.delete()
+
+        # 3. Soft delete de este objeto
+        self.deleted_at = timezone.now()
+        self.save()
+
 
     def hard_delete(self, using=None, keep_parents=False):
         type(self).all_objects.filter(pk=self.pk).hard_delete()

@@ -1,10 +1,11 @@
 {
-  // formato al guardar
   "editor.formatOnSave": true,
 
-  // Prettier como formateador para HTML
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.associations": {
+    "*.html": "django-html"
   },
   // …y también para CSS
   "[css]": {

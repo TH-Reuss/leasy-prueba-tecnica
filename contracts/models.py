@@ -6,15 +6,19 @@ from clients.models import Client
 from cars.models import Car
 
 class Contract(BaseModel):
+    cascade_delete_relations = ['invoices']
+
     client = models.ForeignKey(
         Client,
         on_delete=models.PROTECT,
-        related_name='contracts'
+        related_name='contracts',
+        verbose_name='Cliente',
     )
     car = models.ForeignKey(
         Car,
         on_delete=models.PROTECT,
-        related_name='contracts'
+        related_name='contracts',
+        verbose_name='Auto',
     )
     weekly_fee = models.DecimalField(
         "Monto semanal",
@@ -31,12 +35,12 @@ class Contract(BaseModel):
         constraints = [
             models.UniqueConstraint(
                 fields=['client'],
-                condition=Q(is_active=True, deleted_at__isnull=True),
+                condition=models.Q(is_active=True, deleted_at__isnull=True),
                 name='unique_active_contract_per_client'
             ),
             models.UniqueConstraint(
                 fields=['car'],
-                condition=Q(is_active=True, deleted_at__isnull=True),
+                condition=models.Q(is_active=True, deleted_at__isnull=True),
                 name='unique_active_contract_per_car'
             ),
         ]

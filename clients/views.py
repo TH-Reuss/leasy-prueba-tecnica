@@ -6,7 +6,7 @@ from .models import Client
 class ClientListView(LoginRequiredMixin, CustomListView):
     model = Client
     template_name = 'core/list.html'
-    ordering = ['-created_at']
+    ordering = ['-updated_at']
     available_columns = {
         'ID': 'id',
         'DNI': 'dni',   
