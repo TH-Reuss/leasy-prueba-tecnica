@@ -13,7 +13,6 @@
 
 - [Características Principales](#-características-principales)
 - [Funcionalidades](#-funcionalidades)
-- [Arquitectura del Sistema](#-arquitectura-del-sistema)
 - [Instalación y Configuración](#-instalación-y-configuración)
 - [Uso del Sistema](#-uso-del-sistema)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
