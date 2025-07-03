@@ -9,3 +9,4 @@ __pycache__/
 # Ignore pytest cache
 .pytest_cache/
 /bootstrap-examples/
+.env
