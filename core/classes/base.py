@@ -12,6 +12,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from openpyxl import Workbook
+
 
 EXCEL_SUPPORTED = True
 
@@ -96,8 +98,6 @@ class CustomListView(ListView):
             return response
 
         elif export_type == 'xlsx' and EXCEL_SUPPORTED:
-            from openpyxl import Workbook
-
             wb = Workbook()
             ws = wb.active
             ws.append(headers)

@@ -14,12 +14,9 @@
 - [Características Principales](#-características-principales)
 - [Funcionalidades](#-funcionalidades)
 - [Arquitectura del Sistema](#-arquitectura-del-sistema)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
 - [Instalación y Configuración](#-instalación-y-configuración)
 - [Uso del Sistema](#-uso-del-sistema)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
-- [API y Endpoints](#-api-y-endpoints)
-- [Contribución](#-contribución)
 
 ---
 
